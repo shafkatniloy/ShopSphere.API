@@ -40,15 +40,7 @@ namespace dotnet_web_api.Controllers
         public IActionResult CreateCategories([FromBody] CategoryCreateDto CatData)
         {
 
-            if (string.IsNullOrEmpty(CatData.Name))
-            {
-                return BadRequest("Category name is Required");
-            }
-
-            if (CatData.Name.Length < 3)
-            {
-                return BadRequest("Category name must be at least 3 characters long");
-            }
+  
 
             var Category1 = new Category
             {
