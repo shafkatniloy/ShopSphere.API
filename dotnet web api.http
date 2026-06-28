@@ -3,13 +3,30 @@ GET http://localhost:5007
 
 ###
 
-GET http://localhost:5007/hello
+GET http://localhost:5007/api/categories?SearchValue=home
 
 ###
 
-POST http://localhost:5007/hello
+POST http://localhost:5007/api/categories
+Content-Type: application/json
+
+{
+    "name": "homeappliences",
+    "description": "this category contains all the electronic products"
+    //"name": "home appliances",
+    //"description": "this category contains all the home appliances products"
+}
 
 ###
 
-DELETE http://localhost:5007/hello
+DELETE http://localhost:5007/api/categories
 
+###
+
+PUT http://localhost:5007/api/categories/bce29982-d1d8-41a5-9c79-eea848a55989
+Content-Type: application/json
+
+{
+    "name": "",
+    "description": " "
+}
