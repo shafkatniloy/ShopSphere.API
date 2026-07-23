@@ -32,7 +32,8 @@ namespace dotnet_web_api.Controllers
                 Description = c.Description,
                 CreatedAt = c.CreatedAt
             }).ToList();
-            return Ok(categoryList);
+
+            return Ok(ApiResponse<List<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
         }
 
         // POST: api/categories => create a category
@@ -61,7 +62,7 @@ namespace dotnet_web_api.Controllers
             };
             
 
-            return Created($"/api/Categories/{Category1.CategoryId}", CategoryReadDto);
+            return Created($"/api/Categories/{Category1.CategoryId}", ApiResponse<CategoryReadDto>.SuccessResponse(CategoryReadDto, 201, "Category created successfully"));
         }
 
         // DELETE: api/categories/{catID} => delete a category by ID
@@ -72,12 +73,11 @@ namespace dotnet_web_api.Controllers
 
             if (foundCategory == null)
             {
-                return NotFound("category eith this id does not exist");
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> { "Category with this ID does not exist" }, 404, "Category not found"));
             }
 
             categories.Remove(foundCategory);
-            return NoContent();
-
+            return Ok(ApiResponse<object>.SuccessResponse(null, 204, "Category deleted successfully"));
         }
 
         // PUT: api/categories/{catID} => update a category by ID
@@ -88,28 +88,15 @@ namespace dotnet_web_api.Controllers
 
             if (foundCategory == null)
             {
-                return NotFound("category eith this id does not exist");
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> { "Category with this ID does not exist" }, 404, "Category not found"));
             }
 
-            if (CatData.Name == null)
-            {
-                return BadRequest("Category name is Required");
-            }
-            if (!string.IsNullOrEmpty(CatData.Name))
-            {
-                if (CatData.Name.Length < 3)
-                {
-                    return BadRequest("Category name must be at least 3 characters long");
-                }
-                foundCategory.Name = CatData.Name;
-            }
+            
+            foundCategory.Name = CatData.Name;
+            foundCategory.Description = CatData.Description;
+            
 
-            if (!string.IsNullOrEmpty(CatData.Description))
-            {
-                foundCategory.Description = CatData.Description;
-            }
-
-            return NoContent();
+            return Ok(ApiResponse<object>.SuccessResponse( null, 204, "Category updated successfully"));
         }
 
     }

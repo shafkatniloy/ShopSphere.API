@@ -1,3 +1,4 @@
+using dotnet_web_api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -11,21 +12,20 @@ builder.Services.Configure<ApiBehaviorOptions>(Options =>
 {
     Options.InvalidModelStateResponseFactory = context =>
     {
-        var errors = context.ModelState.Where(e => e.Value !=null && e.Value.Errors.Count > 0)
-                .Select(e => new
-                {
-                    Field = e.Key,
-                    Errors = e.Value!=null ? e.Value.Errors.Select(x => x.ErrorMessage).ToArray() : new string[0]
+        // var errors = context.ModelState.Where(e => e.Value !=null && e.Value.Errors.Count > 0)
+        //         .Select(e => new
+        //         {
+        //             Field = e.Key,
+        //             Errors = e.Value!=null ? e.Value.Errors.Select(x => x.ErrorMessage).ToArray() : new string[0]
 
-                }).ToList();
+        //         }).ToList();
+
+var errors = context.ModelState.Where(e => e.Value !=null && e.Value.Errors.Count > 0)
+                .SelectMany(e=> e.Value?.Errors != null ? e.Value.Errors.Select(x=> x.ErrorMessage) : new List<string>()).ToList();
 
         
 
-        return new BadRequestObjectResult(new
-        {
-            Message = "Validation Failed",
-            Errors = errors
-        });
+        return new BadRequestObjectResult(ApiResponse<object>.ErrorResponse(errors, 400, "Validation failed for the request"));
 
     };
 
