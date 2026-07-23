@@ -36,6 +36,28 @@ namespace dotnet_web_api.Controllers
             return Ok(ApiResponse<List<CategoryReadDto>>.SuccessResponse(categoryList, 200, "Categories retrieved successfully"));
         }
 
+        // GET: api/categories/{CategoryID} => read categories by catgory id
+        [HttpGet("{CatId:guid}")]
+        public IActionResult getCategoryById(Guid CatId)
+        {
+            var foundCategory = categories.FirstOrDefault(c => c.CategoryId == CatId);
+            
+            if (foundCategory == null)
+            {
+                return NotFound(ApiResponse<object>.ErrorResponse(new List<string> { "Category with this ID does not exist" }, 404, "Category not found"));
+            }
+
+           var categoryReadDto =  new CategoryReadDto
+            {
+                CategoryId = foundCategory.CategoryId,
+                Name = foundCategory.Name,
+                Description = foundCategory.Description,
+                CreatedAt = foundCategory.CreatedAt
+            };
+
+            return Ok(ApiResponse<CategoryReadDto>.SuccessResponse(categoryReadDto, 200, "Category returned successfully"));
+        }
+
         // POST: api/categories => create a category
         [HttpPost]
         public IActionResult CreateCategories([FromBody] CategoryCreateDto CatData)
