@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnet_web_api.Controllers
 {
     [ApiController]
-    [Route("api/categories/")]
+    [Route("v1/api/categories/")]
     public class CategoryController : ControllerBase
     {
         //   categories creation--
@@ -84,7 +84,7 @@ namespace dotnet_web_api.Controllers
             };
             
 
-            return Created($"/api/Categories/{Category1.CategoryId}", ApiResponse<CategoryReadDto>.SuccessResponse(CategoryReadDto, 201, "Category created successfully"));
+            return Created(nameof(getCategoryById), ApiResponse<CategoryReadDto>.SuccessResponse(CategoryReadDto, 201, "Category created successfully"));
         }
 
         // DELETE: api/categories/{catID} => delete a category by ID
