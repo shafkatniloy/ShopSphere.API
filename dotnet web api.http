@@ -3,15 +3,19 @@ GET http://localhost:5007
 
 ###
 
-GET http://localhost:5007/api/categories
+GET http://localhost:5007/v1/api/categories
+
+###
+//search by cat id
+GET http://localhost:5007/v1/api/categories/0d84f0cb-1bc3-468c-847e-542370621fec
 
 ###
 
-POST http://localhost:5007/api/categories
+POST http://localhost:5007/v1/api/categories
 Content-Type: application/json
 
 {
-    "name": "sports",
+    "name": "electric applience",
     "description": "this category contains all the electronic products"
     //"name": "home appliances",
     //"description": "this category contains all the home appliances products"
@@ -19,11 +23,11 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:5007/api/categories/8773844b-8fd0-4aba-a3d5-83b99d757838
+DELETE http://localhost:5007/v1/api/categories/a1e5bc57-28a7-4ca2-8b29-226473cfa6d8
 
 ###
 
-PUT http://localhost:5007/api/categories/bce29982-d1d8-41a5-9c79-eea848a55989
+PUT http://localhost:5007/v1/api/categories/bce29982-d1d8-41a5-9c79-eea848a55989
 Content-Type: application/json
 
 {
